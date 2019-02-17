@@ -1,6 +1,4 @@
 
-
-
 //טענת כניסה: הפונקציה מקבלת עץ בינארי
 //טענת יציאה: מחזירה בוליאן אם הוא עלה או לא
 
@@ -583,4 +581,91 @@ public static int Sum(BinNode<Integer> head)
 	
 	}
   
-  
+  	//טענת כניסה: הפונקציה מקבלת עץ בינארי ומערך ריק באורך של כמות כל הצמתים בעץ
+  	// (preorder(NLR)) טענת יציאה: הפונקציה ממלאת את המערך בסדר תחילי
+  	public static void preOrder (BinNode<Integer> root , int[] pre) 
+	{
+		if (root != null) 
+		{
+			insert(root.getValue(), pre);
+			if(root.hasLeft() && root.hasRight())
+			{
+				preOrder(root.getLeft(), pre);
+				preOrder(root.getRight(), pre);
+			}
+			else if (root.hasLeft() && !root.hasRight())		
+				preOrder(root.getLeft(), pre);
+			else if (!root.hasLeft() && root.hasRight())
+				preOrder(root.getRight(), pre);
+		}
+		return;
+	}
+	
+	//טענת כניסה: הפונקציה מקבלת עץ בינארי ומערך ריק באורך של כמות כל הצמתים בעץ
+  	// (inorder(LNR)) טענת יציאה: הפונקציה ממלאת את המערך בסדר תוכי
+	public static void inOrder (BinNode<Integer> root , int[] in) 
+	{
+		if(isLeaf(root))
+		{
+			insert(root.getValue(), in);
+			return;
+		}
+		if (root.hasLeft() && root.hasRight())
+		{
+			inOrder(root.getLeft(), in);
+			insert(root.getValue(), in);
+			inOrder(root.getRight(), in);
+		}
+		else if (root.hasLeft() && !root.hasRight())
+		{
+			inOrder(root.getLeft(), in);
+			insert(root.getValue(), in);
+		}
+		else if (!root.hasLeft() && root.hasRight())
+		{
+			insert(root.getValue(), in);
+			inOrder(root.getRight(), in);
+		}
+	}
+	
+	//טענת כניסה: הפונקציה מקבלת עץ בינארי ומערך ריק באורך של כמות כל הצמתים בעץ
+  	// (psotorder(LRN)) טענת יציאה: הפונקציה ממלאת את המערך בסדר סופי
+	public static void postOrder (BinNode<Integer> root , int[] pre) 
+	{
+		if(isLeaf(root))
+		{
+			insert(root.getValue(), pre);
+			return;
+		}
+		if (root.hasLeft() && root.hasRight())
+		{
+			postOrder(root.getLeft(), pre);
+			postOrder(root.getRight(), pre);
+			insert(root.getValue(), pre);
+		}
+		else if (root.hasLeft() && !root.hasRight())
+		{
+			postOrder(root.getLeft(), pre);
+			insert(root.getValue(), pre);
+		}
+		else if (!root.hasLeft() && root.hasRight())
+		{
+			postOrder(root.getRight(), pre);
+			insert(root.getValue(), pre);
+		}
+	}
+  	
+	//inOrder() , preOrder() , postOrder() זוהי פונקציית עזר לפעולות
+	//טענת כניסה: הפונקציה מקבלת מערך לא בהכרח מלא ומספר
+	//טענת יציאה: הפונקציה מכניסה את המספר למקום הראשון הפנוי במערך
+	public static void insert(int num, int RA [])
+	{
+		for (int i = 0; i < RA.length; i++) 
+			if (RA[i] == 0)
+			{
+				RA[i] = num;
+				return;
+			}
+	}
+	
+	
